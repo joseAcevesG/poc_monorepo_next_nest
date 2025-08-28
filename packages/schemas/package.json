@@ -1,0 +1,32 @@
+{
+	"name": "@monorepo-poc/schemas",
+	"version": "1.0.0",
+	"description": "Shared Zod validation schemas for monorepo-poc",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"scripts": {
+		"build": "tsc",
+		"dev": "tsc --watch",
+		"test": "vitest run",
+		"test:watch": "vitest",
+		"clean": "rm -rf dist"
+	},
+	"dependencies": {
+		"zod": "4.1.4"
+	},
+	"devDependencies": {
+		"@types/node": "24.3.0",
+		"typescript": "5.9.2",
+		"vitest": "3.2.4"
+	},
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js",
+			"require": "./dist/index.js"
+		}
+	},
+	"files": [
+		"dist"
+	]
+}
