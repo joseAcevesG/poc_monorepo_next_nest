@@ -27,7 +27,7 @@
   - Create basic project structure and configuration files
   - _Requirements: 2.1, 1.2_
 
-- [ ] 4. Implement frontend form component with validation
+- [x] 4. Implement frontend form component with validation
 
   - Create HelloForm component with input field and submit functionality
   - Implement client-side validation using shared Zod schemas
@@ -36,12 +36,12 @@
   - Write component tests using React Testing Library and Vitest
   - _Requirements: 2.1, 2.2, 2.3, 3.1, 3.4_
 
-- [ ] 5. Set up Nest.js backend application
+- [-] 5. Set up Nest.js backend application
 
-  - Initialize Nest.js application with TypeScript
+  - Initialize Nest.js application with TypeScript with cli
   - Configure Node.js 22 compatibility
   - Set up workspace dependency on shared schemas package
-  - Configure Vitest for backend testing
+  - Configure Vitest for backend testing, search the official docs for Vitest configuration
   - Set up global validation pipe with Zod integration
   - Create basic project structure and configuration files
   - _Requirements: 4.1, 1.2_
