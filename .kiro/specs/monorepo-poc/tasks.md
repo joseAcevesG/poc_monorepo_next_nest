@@ -46,7 +46,7 @@
   - Create basic project structure and configuration files
   - _Requirements: 4.1, 1.2_
 
-- [ ] 6. Implement backend API endpoint with validation
+- [x] 6. Implement backend API endpoint with validation
 
   - Create HelloController with POST /hello endpoint
   - Implement HelloService with business logic for processing requests
@@ -56,7 +56,17 @@
   - Write unit tests for controller and service using Vitest and Supertest
   - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 3.1, 3.3_
 
-- [ ] 7. Create Docker configurations for both applications
+- [ ] 7. Connect frontend to use backend API
+
+  - Update HelloForm component to make HTTP requests to backend API endpoint
+  - Configure API client with proper base URL and error handling
+  - Implement frontend-backend communication for the "hello" -> "world" flow
+  - Add loading states and error handling for API calls in the frontend
+  - Test end-to-end communication between frontend and backend locally
+  - Ensure CORS configuration allows frontend to communicate with backend
+  - _Requirements: 2.3, 4.1, 4.2, 4.4_
+
+- [ ] 8. Create Docker configurations for both applications
 
   - Create multi-stage Dockerfile for frontend with Node.js 22 Alpine base
   - Create multi-stage Dockerfile for backend with Node.js 22 Alpine base
@@ -66,7 +76,7 @@
   - Test Docker builds locally to ensure proper dependency resolution
   - _Requirements: 6.1, 6.2, 6.3, 6.4_
 
-- [ ] 8. Set up AWS ECR repositories and IAM configuration
+- [ ] 9. Set up AWS ECR repositories and IAM configuration
 
   - Create ECR repositories for frontend and backend images
   - Configure repository lifecycle policies for image retention
@@ -75,7 +85,7 @@
   - Document ECR repository URIs and IAM configurations
   - _Requirements: 5.1, 5.2, 5.3, 5.4_
 
-- [ ] 9. Implement frontend CI/CD pipeline with GitHub Actions
+- [ ] 10. Implement frontend CI/CD pipeline with GitHub Actions
 
   - Create .github/workflows/deploy-frontend.yml workflow
   - Configure workflow to trigger on changes to apps/frontend/ or packages/schemas/
@@ -86,7 +96,7 @@
   - Include environment-specific configuration handling
   - _Requirements: 5.1, 5.2, 6.5_
 
-- [ ] 10. Implement backend CI/CD pipeline with GitHub Actions
+- [ ] 11. Implement backend CI/CD pipeline with GitHub Actions
 
   - Create .github/workflows/deploy-backend.yml workflow
   - Configure workflow to trigger on changes to apps/backend/ or packages/schemas/
@@ -97,7 +107,7 @@
   - Include environment-specific configuration handling
   - _Requirements: 5.1, 5.3, 6.5_
 
-- [ ] 11. Configure EC2 instances for Docker deployment
+- [ ] 12. Configure EC2 instances for Docker deployment
 
   - Set up frontend EC2 instance with Docker runtime and Docker Compose
   - Set up backend EC2 instance with Docker runtime and Docker Compose
@@ -107,7 +117,7 @@
   - Configure health checks and monitoring for both instances
   - _Requirements: 5.2, 5.3, 5.4_
 
-- [ ] 12. Implement end-to-end integration and testing
+- [ ] 13. Implement end-to-end integration and testing
 
   - Create integration tests that validate the complete "hello" -> "world" flow
   - Test API communication between frontend and backend
@@ -117,7 +127,7 @@
   - Write automated tests for CI/CD pipeline validation
   - _Requirements: 3.1, 3.2, 3.3, 4.2, 4.4, 5.5_
 
-- [ ] 13. Add comprehensive error handling and logging
+- [ ] 14. Add comprehensive error handling and logging
 
   - Implement global error handling in frontend with user-friendly messages
   - Add comprehensive error handling in backend with structured responses
@@ -127,7 +137,7 @@
   - Test error scenarios and edge cases thoroughly
   - _Requirements: 3.3, 4.3, 4.5_
 
-- [ ] 14. Create documentation and deployment guides
+- [ ] 15. Create documentation and deployment guides
   - Write comprehensive README with setup and development instructions
   - Document the monorepo structure and workspace dependencies
   - Create deployment guide for AWS infrastructure setup
