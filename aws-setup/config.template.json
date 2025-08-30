@@ -1,0 +1,41 @@
+{
+  "academyLabInfo": {
+    "note": "AWS Academy lab session has 4-hour timeout",
+    "supportedRegions": ["us-east-1", "us-west-2"],
+    "creditLimit": "$100 total budget",
+    "sessionTimeout": "4 hours"
+  },
+  "ecr": {
+    "region": "us-east-1",
+    "repositories": {
+      "frontend": {
+        "name": "monorepo-poc-frontend",
+        "uri": "123456789012.dkr.ecr.us-east-1.amazonaws.com/monorepo-poc-frontend"
+      },
+      "backend": {
+        "name": "monorepo-poc-backend",
+        "uri": "123456789012.dkr.ecr.us-east-1.amazonaws.com/monorepo-poc-backend"
+      }
+    }
+  },
+  "iam": {
+    "ec2Role": {
+      "name": "ECR-EC2-Role",
+      "arn": "arn:aws:iam::123456789012:role/ECR-EC2-Role"
+    },
+    "githubActionsUser": {
+      "name": "github-actions-ecr",
+      "accessKeyId": "AKIA...",
+      "note": "Secret access key should be stored securely in GitHub Actions secrets"
+    }
+  },
+  "githubSecrets": {
+    "required": [
+      "AWS_ACCESS_KEY_ID",
+      "AWS_SECRET_ACCESS_KEY", 
+      "AWS_REGION",
+      "ECR_FRONTEND_REPOSITORY",
+      "ECR_BACKEND_REPOSITORY"
+    ]
+  }
+}

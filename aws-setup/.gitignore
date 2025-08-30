@@ -1,0 +1,5 @@
+# Ignore actual config file with real values
+config.json
+
+# Keep template file
+!config.template.json

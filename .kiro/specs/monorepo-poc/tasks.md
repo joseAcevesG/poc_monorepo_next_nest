@@ -76,16 +76,30 @@
   - Test Docker builds locally to ensure proper dependency resolution
   - _Requirements: 6.1, 6.2, 6.3, 6.4_
 
-- [ ] 9. Set up AWS ECR repositories and IAM configuration
+- [x] 9. Set up AWS ECR repositories and IAM configuration (Manual AWS Console Steps)
 
-  - Create ECR repositories for frontend and backend images
-  - Configure repository lifecycle policies for image retention
-  - Set up IAM roles for EC2 instances with ECR pull permissions
-  - Create IAM user for GitHub Actions with ECR push permissions
-  - Document ECR repository URIs and IAM configurations
+  - **Create ECR repositories manually in AWS Console:**
+    - Navigate to Amazon ECR service in AWS Console
+    - Click "Create repository" and create "monorepo-poc-frontend" repository
+    - Click "Create repository" and create "monorepo-poc-backend" repository
+    - Note down the repository URIs for both repositories
+  - **Configure repository lifecycle policies:**
+    - Select each repository and go to "Lifecycle policy" tab
+    - Create policy to keep only last 10 images to manage storage costs
+  - **Create IAM role for EC2 instances:**
+    - Navigate to IAM service and create new role
+    - Select "EC2" as trusted entity type
+    - Attach "AmazonEC2ContainerRegistryReadOnly" policy
+    - Name the role "ECR-EC2-Role" and note the ARN
+  - **Create IAM user for GitHub Actions:**
+    - Create new IAM user named "github-actions-ecr"
+    - Attach "AmazonEC2ContainerRegistryPowerUser" policy
+    - Generate access keys and securely store them for GitHub Actions secrets
+  - **Document all configurations:**
+    - Record ECR repository URIs, IAM role ARN, and access key details
   - _Requirements: 5.1, 5.2, 5.3, 5.4_
 
-- [ ] 10. Implement frontend CI/CD pipeline with GitHub Actions
+- [-] 10. Implement frontend CI/CD pipeline with GitHub Actions
 
   - Create .github/workflows/deploy-frontend.yml workflow
   - Configure workflow to trigger on changes to apps/frontend/ or packages/schemas/
