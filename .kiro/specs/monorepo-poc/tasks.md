@@ -66,7 +66,7 @@
   - Ensure CORS configuration allows frontend to communicate with backend
   - _Requirements: 2.3, 4.1, 4.2, 4.4_
 
-- [ ] 8. Create Docker configurations for both applications
+- [x] 8. Create Docker configurations for both applications
 
   - Create multi-stage Dockerfile for frontend with Node.js 22 Alpine base
   - Create multi-stage Dockerfile for backend with Node.js 22 Alpine base
