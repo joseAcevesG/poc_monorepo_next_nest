@@ -9,7 +9,25 @@ import {
 import userEvent from "@testing-library/user-event";
 import React from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { ApiError } from "../lib/api-client";
 import HelloForm from "./HelloForm";
+
+// Mock the API client
+vi.mock("../lib/api-client", () => ({
+	apiClient: {
+		sendHello: vi.fn(),
+	},
+	ApiError: class extends Error {
+		constructor(
+			message: string,
+			public status?: number,
+			public response?: HelloResponse
+		) {
+			super(message);
+			this.name = "ApiError";
+		}
+	},
+}));
 
 describe("HelloForm", () => {
 	beforeEach(() => {
@@ -265,16 +283,12 @@ describe("HelloForm", () => {
 
 	describe("API Integration", () => {
 		it("should make API call when no onSubmit handler provided", async () => {
-			// Mock fetch
-			const mockFetch = vi.fn().mockResolvedValue({
-				ok: true,
-				json: () =>
-					Promise.resolve({
-						message: "world",
-						success: true,
-					}),
+			const { apiClient } = await import("../lib/api-client");
+			const mockSendHello = vi.mocked(apiClient.sendHello);
+			mockSendHello.mockResolvedValue({
+				message: "world",
+				success: true,
 			});
-			vi.stubGlobal("fetch", mockFetch);
 
 			const user = userEvent.setup();
 			render(<HelloForm />);
@@ -285,24 +299,19 @@ describe("HelloForm", () => {
 			await user.type(input, "hello");
 			await user.click(submitButton);
 
-			expect(mockFetch).toHaveBeenCalledWith("/api/hello", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({ input: "hello" }),
-			});
+			expect(mockSendHello).toHaveBeenCalledWith({ input: "hello" });
 
-			vi.unstubAllGlobals();
+			await waitFor(() => {
+				expect(screen.getByTestId("response-message")).toHaveTextContent(
+					"world"
+				);
+			});
 		});
 
 		it("should handle API errors", async () => {
-			// Mock fetch to return error
-			const mockFetch = vi.fn().mockResolvedValue({
-				ok: false,
-				status: 400,
-			});
-			vi.stubGlobal("fetch", mockFetch);
+			const { apiClient } = await import("../lib/api-client");
+			const mockSendHello = vi.mocked(apiClient.sendHello);
+			mockSendHello.mockRejectedValue(new ApiError("Backend error", 400));
 
 			const user = userEvent.setup();
 			render(<HelloForm />);
@@ -315,11 +324,36 @@ describe("HelloForm", () => {
 
 			await waitFor(() => {
 				expect(screen.getByTestId("error-message")).toHaveTextContent(
-					"HTTP error! status: 400"
+					"Backend error"
 				);
 			});
+		});
 
-			vi.unstubAllGlobals();
+		it("should handle API errors with structured response", async () => {
+			const { apiClient } = await import("../lib/api-client");
+			const mockSendHello = vi.mocked(apiClient.sendHello);
+			const errorResponse: HelloResponse = {
+				message: "Validation failed",
+				success: false,
+			};
+			mockSendHello.mockRejectedValue(
+				new ApiError("Validation failed", 400, errorResponse)
+			);
+
+			const user = userEvent.setup();
+			render(<HelloForm />);
+
+			const input = screen.getByTestId("hello-input");
+			const submitButton = screen.getByTestId("submit-button");
+
+			await user.type(input, "hello");
+			await user.click(submitButton);
+
+			await waitFor(() => {
+				expect(screen.getByTestId("response-message")).toHaveTextContent(
+					"Validation failed"
+				);
+			});
 		});
 	});
 });

@@ -1,0 +1,7 @@
+#
+POST http://localhost:3001/hello
+Content-Type: application/json
+
+{
+    "input": "hello"
+}

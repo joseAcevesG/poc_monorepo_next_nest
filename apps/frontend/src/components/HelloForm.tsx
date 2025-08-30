@@ -6,6 +6,7 @@ import {
 	type HelloResponse,
 } from "@monorepo-poc/schemas";
 import React, { useId, useState } from "react";
+import { apiClient, ApiError } from "../lib/api-client";
 
 interface HelloFormProps {
 	onSubmit?: (data: HelloInput) => Promise<HelloResponse>;
@@ -64,24 +65,21 @@ export default function HelloForm({ onSubmit }: HelloFormProps) {
 				const result = await onSubmit(data);
 				setResponse(result);
 			} else {
-				// Default API call to backend
-				const response = await fetch("/api/hello", {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify(data),
-				});
-
-				if (!response.ok) {
-					throw new Error(`HTTP error! status: ${response.status}`);
-				}
-
-				const result: HelloResponse = await response.json();
+				// Call backend API using API client
+				const result = await apiClient.sendHello(data);
 				setResponse(result);
 			}
 		} catch (err) {
-			setError(err instanceof Error ? err.message : "An error occurred");
+			if (err instanceof ApiError) {
+				// Handle API-specific errors
+				setError(err.message);
+				// If the API returned a structured response, use it
+				if (err.response && !err.response.success) {
+					setResponse(err.response);
+				}
+			} else {
+				setError(err instanceof Error ? err.message : "An error occurred");
+			}
 		} finally {
 			setIsSubmitting(false);
 		}
@@ -109,7 +107,7 @@ export default function HelloForm({ onSubmit }: HelloFormProps) {
 						value={input}
 						onChange={handleInputChange}
 						placeholder="Type 'hello' here..."
-						className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+						className={`w-full px-3 py-2  border rounded-md text-black focus:outline-none focus:ring-2 focus:ring-blue-500 ${
 							error ? "border-red-500" : "border-gray-300"
 						}`}
 						disabled={isSubmitting}

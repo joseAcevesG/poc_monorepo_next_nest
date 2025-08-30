@@ -1,0 +1,27 @@
+{
+	"compilerOptions": {
+		"baseUrl": ".",
+		"target": "es2023",
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
+		"strict": true,
+		"skipLibCheck": true,
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+		"forceConsistentCasingInFileNames": true,
+		"resolveJsonModule": true,
+		"composite": true,
+		"declaration": true,
+		"sourceMap": true,
+		"incremental": true,
+		"paths": {
+			"@monorepo-poc/schemas": ["./packages/schemas/src"]
+		}
+	},
+	"files": [],
+	"references": [
+		{ "path": "./packages/schemas" },
+		{ "path": "./apps/frontend" },
+		{ "path": "./apps/backend" }
+	]
+}

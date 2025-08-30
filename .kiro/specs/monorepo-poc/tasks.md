@@ -56,7 +56,7 @@
   - Write unit tests for controller and service using Vitest and Supertest
   - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 3.1, 3.3_
 
-- [ ] 7. Connect frontend to use backend API
+- [x] 7. Connect frontend to use backend API
 
   - Update HelloForm component to make HTTP requests to backend API endpoint
   - Configure API client with proper base URL and error handling
