@@ -64,7 +64,7 @@ jobs:
 
       - name: Run tests for affected packages
         run: |
-          npx turbo test --filter=@monorepo-poc/frontend... --run
+          npx turbo test --filter=@monorepo-poc/frontend...
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
