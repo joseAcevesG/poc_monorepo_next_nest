@@ -15,8 +15,6 @@ on:
       - ".github/workflows/deploy-frontend.yml"
 
 env:
-  AWS_REGION: us-east-1
-  ECR_REPOSITORY: monorepo-poc-frontend
   NODE_VERSION: "22"
 
 jobs:
@@ -78,7 +76,8 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Login to Amazon ECR
         if: github.ref == 'refs/heads/main'
@@ -88,28 +87,25 @@ jobs:
       - name: Build Docker image
         if: github.ref == 'refs/heads/main'
         env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
           docker build \
             --file apps/frontend/Dockerfile \
-            --tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG \
-            --tag $ECR_REGISTRY/$ECR_REPOSITORY:latest \
+            --tag ${{ secrets.ECR_FRONTEND_REPOSITORY }}:$IMAGE_TAG \
+            --tag ${{ secrets.ECR_FRONTEND_REPOSITORY }}:latest \
             .
 
       - name: Push Docker image to ECR
         if: github.ref == 'refs/heads/main'
         env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          docker push ${{ secrets.ECR_FRONTEND_REPOSITORY }}:$IMAGE_TAG
+          docker push ${{ secrets.ECR_FRONTEND_REPOSITORY }}:latest
 
       - name: Deploy to EC2
         if: github.ref == 'refs/heads/main'
         env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
           # Create deployment script
@@ -118,16 +114,15 @@ jobs:
           set -e
 
           # Variables
-          ECR_REGISTRY="${{ steps.login-ecr.outputs.registry }}"
-          ECR_REPOSITORY="${{ env.ECR_REPOSITORY }}"
+          ECR_REPOSITORY="${{ secrets.ECR_FRONTEND_REPOSITORY }}"
           IMAGE_TAG="${{ github.sha }}"
           CONTAINER_NAME="monorepo-poc-frontend"
 
           # Login to ECR
-          aws ecr get-login-password --region ${{ env.AWS_REGION }} | docker login --username AWS --password-stdin $ECR_REGISTRY
+          aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_FRONTEND_REPOSITORY }}
 
           # Pull latest image
-          docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker pull $ECR_REPOSITORY:$IMAGE_TAG
 
           # Stop and remove existing container if it exists
           docker stop $CONTAINER_NAME || true
@@ -140,10 +135,10 @@ jobs:
             -p 3000:3000 \
             -e NODE_ENV=production \
             -e NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }} \
-            $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+            $ECR_REPOSITORY:$IMAGE_TAG
 
           # Clean up old images (keep last 3)
-          docker images $ECR_REGISTRY/$ECR_REPOSITORY --format "table {{.Tag}}" | tail -n +4 | xargs -r docker rmi $ECR_REGISTRY/$ECR_REPOSITORY: || true
+          docker images $ECR_REPOSITORY --format "table {{.Tag}}" | tail -n +4 | xargs -r docker rmi $ECR_REPOSITORY: || true
 
           echo "Frontend deployment completed successfully"
           EOF
