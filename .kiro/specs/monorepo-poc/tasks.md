@@ -99,7 +99,7 @@
     - Record ECR repository URIs, IAM role ARN, and access key details
   - _Requirements: 5.1, 5.2, 5.3, 5.4_
 
-- [-] 10. Implement frontend CI/CD pipeline with GitHub Actions
+- [x] 10. Implement frontend CI/CD pipeline with GitHub Actions
 
   - Create .github/workflows/deploy-frontend.yml workflow
   - Configure workflow to trigger on changes to apps/frontend/ or packages/schemas/
