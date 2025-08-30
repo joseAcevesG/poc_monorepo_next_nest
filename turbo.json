@@ -5,6 +5,12 @@
 			"dependsOn": ["^build"],
 			"outputs": [".next/**", "!.next/cache/**", "dist/**"]
 		},
+		"start": {
+			"cache": false,
+			"persistent": true,
+			"dependsOn": ["^build"],
+			"outputs": [".next/**", "!.next/cache/**", "dist/**"]
+		},
 		"dev": {
 			"cache": false,
 			"persistent": true
