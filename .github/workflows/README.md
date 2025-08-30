@@ -1,145 +1,72 @@
-# CI/CD Pipeline Setup
+# GitHub Actions Workflows
 
-This directory contains GitHub Actions workflows for deploying the monorepo-poc applications.
+This directory contains CI/CD workflows for the monorepo-poc project.
 
-## Prerequisites
+## Frontend Deployment Workflow
 
-### AWS Resources Required
+The `deploy-frontend.yml` workflow handles building and deploying the Next.js frontend application to EC2.
 
-1. **ECR Repositories**:
+### Required GitHub Secrets
 
-   - `monorepo-poc-frontend` - for frontend Docker images
-   - `monorepo-poc-backend` - for backend Docker images
+The following secrets must be configured in your GitHub repository settings:
 
-2. **EC2 Instances**:
+#### AWS Configuration
 
-   - Frontend EC2 instance with Docker installed
-   - Backend EC2 instance with Docker installed
-   - Both instances need IAM roles with ECR pull permissions
+- `AWS_ACCESS_KEY_ID`: AWS access key for ECR and EC2 access
+- `AWS_SECRET_ACCESS_KEY`: AWS secret access key for ECR and EC2 access
 
-3. **IAM Configuration**:
-   - IAM user for GitHub Actions with ECR push permissions
-   - IAM roles for EC2 instances with ECR pull permissions
+#### EC2 Deployment
 
-### GitHub Secrets Required
+- `EC2_FRONTEND_HOST`: Public IP or hostname of the frontend EC2 instance
+- `EC2_FRONTEND_PRIVATE_KEY`: Private SSH key for accessing the frontend EC2 instance (PEM format)
 
-Add these secrets to your GitHub repository settings:
+#### Application Configuration
 
-```
-AWS_ACCESS_KEY_ID          # IAM user access key for GitHub Actions
-AWS_SECRET_ACCESS_KEY      # IAM user secret key for GitHub Actions
-NEXT_PUBLIC_API_URL        # Backend API URL for frontend configuration
-```
+- `BACKEND_EC2_IP`: Public IP address of the backend EC2 instance (e.g., `54.123.45.67`)
 
-### Optional Secrets for SSH Deployment
+### Workflow Triggers
 
-For automated SSH deployment to EC2 instances, add:
+The workflow triggers on:
 
-```
-EC2_FRONTEND_HOST          # Frontend EC2 instance public IP/hostname
-EC2_BACKEND_HOST           # Backend EC2 instance public IP/hostname
-EC2_SSH_PRIVATE_KEY        # SSH private key for EC2 access
-EC2_SSH_USER               # SSH username (usually 'ec2-user' or 'ubuntu')
-```
+- Push to `main` branch with changes to:
+  - `apps/frontend/**`
+  - `packages/schemas/**`
+  - `.github/workflows/deploy-frontend.yml`
+- Manual workflow dispatch
 
-## Workflows
+### Workflow Steps
 
-### Frontend Deployment (`deploy-frontend.yml`)
+1. **Setup**: Checkout code, setup Node.js 22, install pnpm
+2. **Cache**: Setup pnpm and Turborepo caching for faster builds
+3. **Build**: Install dependencies and build affected packages using Turborepo
+4. **Test**: Run tests for affected packages
+5. **Docker**: Build and push Docker image to AWS ECR
+6. **Deploy**: Deploy container to EC2 instance with zero-downtime strategy
+7. **Health Check**: Verify deployment success with HTTP health check
 
-**Triggers**:
+### ECR Repository
 
-- Push to main branch with changes to `apps/frontend/` or `packages/schemas/`
-- Pull requests to main branch (build and test only)
+The workflow expects an ECR repository named `monorepo-poc-frontend` to exist in your AWS account.
 
-**Process**:
+### EC2 Instance Requirements
 
-1. Checkout code and setup Node.js 22 + pnpm
-2. Install dependencies with caching
-3. Build affected packages using Turborepo
-4. Run tests for affected packages
-5. Build Docker image (main branch only)
-6. Push to ECR (main branch only)
-7. Deploy to EC2 instance (main branch only)
+The target EC2 instance must have:
 
-### Backend Deployment (`deploy-backend.yml`)
+- Docker installed and running
+- AWS CLI configured with ECR access (via IAM role)
+- SSH access configured for the deployment user
+- Port 3000 accessible for the application
 
-**Triggers**:
+### Environment Variables
 
-- Push to main branch with changes to `apps/backend/` or `packages/schemas/`
-- Pull requests to main branch (build and test only)
+The deployed container receives these environment variables:
 
-**Process**:
+- `NODE_ENV=production`
+- `NEXT_PUBLIC_API_URL`: Constructed from `BACKEND_EC2_IP` as `http://{ip}:3001`
 
-1. Checkout code and setup Node.js 22 + pnpm
-2. Install dependencies with caching
-3. Build affected packages using Turborepo
-4. Run tests for affected packages
-5. Build Docker image (main branch only)
-6. Push to ECR (main branch only)
-7. Deploy to EC2 instance (main branch only)
+### Deployment Strategy
 
-## Deployment Strategy
-
-### Current Implementation
-
-The workflows create deployment scripts that can be manually executed on EC2 instances. This approach is suitable for POC environments where full automation may not be necessary.
-
-### Production Considerations
-
-For production deployments, consider:
-
-1. **SSH Automation**: Use SSH actions to automatically execute deployment scripts
-2. **Blue-Green Deployment**: Implement zero-downtime deployments
-3. **Health Checks**: Add proper health check endpoints and validation
-4. **Rollback Strategy**: Implement automatic rollback on deployment failures
-5. **Secrets Management**: Use AWS Secrets Manager or Parameter Store
-6. **Load Balancers**: Use ALB/ELB for high availability
-
-## Manual Deployment Steps
-
-If automated deployment fails, you can manually deploy:
-
-1. **SSH to EC2 instance**:
-
-   ```bash
-   ssh -i your-key.pem ec2-user@your-ec2-instance
-   ```
-
-2. **Login to ECR**:
-
-   ```bash
-   aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin your-account.dkr.ecr.us-east-1.amazonaws.com
-   ```
-
-3. **Pull and run container**:
-   ```bash
-   # For frontend
-   docker pull your-account.dkr.ecr.us-east-1.amazonaws.com/monorepo-poc-frontend:latest
-   docker stop monorepo-poc-frontend || true
-   docker rm monorepo-poc-frontend || true
-   docker run -d --name monorepo-poc-frontend --restart unless-stopped -p 3000:3000 your-account.dkr.ecr.us-east-1.amazonaws.com/monorepo-poc-frontend:latest
-   ```
-
-## Monitoring and Troubleshooting
-
-### Logs
-
-- **GitHub Actions**: Check workflow logs in GitHub Actions tab
-- **Docker Logs**: `docker logs monorepo-poc-frontend` on EC2
-- **Application Logs**: Check application-specific logging
-
-### Common Issues
-
-1. **ECR Authentication**: Ensure IAM permissions are correct
-2. **Docker Build**: Check Dockerfile and build context
-3. **Port Conflicts**: Ensure ports 3000/3001 are available
-4. **Network Access**: Check security groups and CORS configuration
-
-### Health Checks
-
-Add these endpoints to your applications:
-
-- Frontend: `GET /api/health`
-- Backend: `GET /health`
-
-These can be used for automated health checking in production deployments.
+- Zero-downtime deployment using container replacement
+- Automatic cleanup of old Docker images (keeps last 3)
+- Health check verification after deployment
+- Rollback capability through container restart policies
