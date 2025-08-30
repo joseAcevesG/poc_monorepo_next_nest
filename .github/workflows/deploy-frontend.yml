@@ -66,11 +66,11 @@ jobs:
 
       - name: Build affected packages
         run: |
-          turbo build --filter=@monorepo-poc/frontend...
+          pnpm exec turbo build --filter=@monorepo-poc/frontend...
 
       - name: Run tests for affected packages
         run: |
-          turbo test --filter=@monorepo-poc/frontend...
+          pnpm exec turbo test --filter=@monorepo-poc/frontend...
 
       - name: Configure AWS credentials
         if: github.ref == 'refs/heads/main'
