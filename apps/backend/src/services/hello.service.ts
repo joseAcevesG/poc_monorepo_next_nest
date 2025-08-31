@@ -12,6 +12,7 @@ export class HelloService {
 	processHello(input: HelloInput): HelloResponse {
 		// Business logic: if input is "hello", return "world"
 		this.logger.log(`Processing hello input: ${input.input}`);
+		this.logger.log(`this is a change on the back`); 
 		return {
 			message: "world",
 			success: true,
