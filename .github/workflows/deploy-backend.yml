@@ -123,6 +123,9 @@ jobs:
             rm -rf awscliv2.zip aws/
           fi
 
+          # Ensure Docker is running
+          sudo systemctl start docker
+
           # Variables
           ECR_REGISTRY="${{ steps.login-ecr.outputs.registry }}"
           ECR_REPOSITORY="${{ env.ECR_REPOSITORY }}"
@@ -135,17 +138,17 @@ jobs:
           export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
           # Login to ECR
-          aws ecr get-login-password --region ${{ env.AWS_REGION }} | docker login --username AWS --password-stdin $ECR_REGISTRY
+          aws ecr get-login-password --region ${{ env.AWS_REGION }} | sudo docker login --username AWS --password-stdin $ECR_REGISTRY
 
           # Pull latest image
-          docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          sudo docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
           # Stop and remove existing container if it exists
-          docker stop $CONTAINER_NAME || true
-          docker rm $CONTAINER_NAME || true
+          sudo docker stop $CONTAINER_NAME || true
+          sudo docker rm $CONTAINER_NAME || true
 
           # Run new container
-          docker run -d \
+          sudo docker run -d \
             --name $CONTAINER_NAME \
             --restart unless-stopped \
             -p 3001:3001 \
@@ -154,7 +157,7 @@ jobs:
             $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
           # Clean up old images (keep last 3)
-          docker images $ECR_REGISTRY/$ECR_REPOSITORY --format "table {{.Tag}}" | tail -n +4 | xargs -r docker rmi $ECR_REGISTRY/$ECR_REPOSITORY: || true
+          sudo docker images $ECR_REGISTRY/$ECR_REPOSITORY --format "table {{.Tag}}" | tail -n +4 | xargs -r sudo docker rmi $ECR_REGISTRY/$ECR_REPOSITORY: || true
 
           echo "Backend deployment completed successfully"
           EOF
