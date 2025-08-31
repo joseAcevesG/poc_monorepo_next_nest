@@ -110,7 +110,7 @@
   - Include environment-specific configuration handling
   - _Requirements: 5.1, 5.2, 6.5_
 
-- [ ] 11. Implement backend CI/CD pipeline with GitHub Actions
+- [x] 11. Implement backend CI/CD pipeline with GitHub Actions
 
   - Create .github/workflows/deploy-backend.yml workflow
   - Configure workflow to trigger on changes to apps/backend/ or packages/schemas/

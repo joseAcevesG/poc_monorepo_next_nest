@@ -183,6 +183,8 @@ jobs:
           max_attempts=10
           attempt=1
 
+          echo "http://${{ secrets.EC2_BACKEND_HOST }}:3001/health"
+
           while [ $attempt -le $max_attempts ]; do
             if curl -f -s "http://${{ secrets.EC2_BACKEND_HOST }}:3001/health" > /dev/null; then
               echo "✅ Backend application is healthy"
