@@ -129,7 +129,10 @@ jobs:
           IMAGE_TAG="${{ github.sha }}"
           CONTAINER_NAME="frontend-app"
 
-          # Login to ECR
+          # Configure AWS region
+          export AWS_DEFAULT_REGION=${{ env.AWS_REGION }}
+          
+          # Login to ECR (using IAM instance profile)
           aws ecr get-login-password --region ${{ env.AWS_REGION }} | docker login --username AWS --password-stdin $ECR_REGISTRY
 
           # Pull latest image
