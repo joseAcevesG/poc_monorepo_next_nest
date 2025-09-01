@@ -1,20 +1,20 @@
 {
-	"extends": "../../tsconfig.json",
-	"compilerOptions": {
-		"module": "commonjs",
-		"moduleResolution": "node",
-		"target": "ES2022",
-		"outDir": "./dist",
-		"baseUrl": ".",
-		"noEmit": false,
-		"removeComments": true,
-		"emitDecoratorMetadata": true,
-		"experimentalDecorators": true,
-		"paths": {
-			"@monorepo-poc/schemas": ["../../packages/schemas/dist"],
-			"@monorepo-poc/schemas/*": ["../../packages/schemas/dist/*"]
-		}
-	},
-	"include": ["src/**/*"],
-	"exclude": ["node_modules", "dist", "**/*.test.*", "**/*.spec.*"]
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "ES2022",
+    "outDir": "./dist",
+    "baseUrl": ".",
+    "noEmit": false,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "paths": {
+      "@monorepo-poc/schemas": ["../../packages/schemas/dist"],
+      "@monorepo-poc/schemas/*": ["../../packages/schemas/dist/*"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "**/*.test.*", "**/*.spec.*"]
 }

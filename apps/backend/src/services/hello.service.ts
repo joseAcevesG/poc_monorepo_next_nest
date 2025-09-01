@@ -1,5 +1,5 @@
-import type { HelloInput, HelloResponse } from '@monorepo-poc/schemas';
-import { Injectable, Logger } from '@nestjs/common';
+import type { HelloInput, HelloResponse } from "@monorepo-poc/schemas";
+import { Injectable, Logger } from "@nestjs/common";
 
 @Injectable()
 export class HelloService {
@@ -14,7 +14,7 @@ export class HelloService {
     this.logger.log(`Processing hello input: ${input.input}`);
     this.logger.log(`this is a change on the back`);
     return {
-      message: 'world',
+      message: "world",
       success: true,
     };
   }

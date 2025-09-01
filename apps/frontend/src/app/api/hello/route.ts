@@ -1,9 +1,7 @@
-import { HelloInputSchema, type HelloResponse } from '@monorepo-poc/schemas';
-import { type NextRequest, NextResponse } from 'next/server';
+import { HelloInputSchema, type HelloResponse } from "@monorepo-poc/schemas";
+import { type NextRequest, NextResponse } from "next/server";
 
-export async function POST(
-  request: NextRequest,
-): Promise<NextResponse<HelloResponse>> {
+export async function POST(request: NextRequest): Promise<NextResponse<HelloResponse>> {
   try {
     const body = await request.json();
 
@@ -11,7 +9,7 @@ export async function POST(
     const result = HelloInputSchema.safeParse(body);
 
     if (!result.success) {
-      const errorMessage = result.error.issues?.[0]?.message || 'Invalid input';
+      const errorMessage = result.error.issues?.[0]?.message || "Invalid input";
       return NextResponse.json(
         {
           message: errorMessage,
@@ -23,13 +21,13 @@ export async function POST(
 
     // If validation passes, return "world"
     return NextResponse.json({
-      message: 'world',
+      message: "world",
       success: true,
     });
   } catch {
     return NextResponse.json(
       {
-        message: 'Invalid JSON',
+        message: "Invalid JSON",
         success: false,
       },
       { status: 400 },

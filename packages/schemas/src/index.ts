@@ -10,4 +10,4 @@ export {
   HelloInputSchema,
   type HelloResponse,
   HelloResponseSchema,
-} from './hello.schema';
+} from "./hello.schema";

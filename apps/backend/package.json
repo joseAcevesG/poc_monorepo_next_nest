@@ -15,12 +15,14 @@
     "dev": "nest start --watch",
     "dev:debug": "nest start --debug --watch",
     "lint": "biome lint .",
+    "lint:fix": "biome lint --write .",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:cov": "vitest run --coverage",
     "test:e2e": "vitest run --config ./vitest.e2e.config.ts",
     "format:check": "biome format .",
-    "check": "biome check ."
+    "check": "biome check .",
+    "check:fix": "biome check --write ."
   },
   "dependencies": {
     "@monorepo-poc/schemas": "workspace:*",

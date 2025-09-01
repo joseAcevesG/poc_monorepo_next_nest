@@ -1,11 +1,11 @@
-import type { INestApplication } from '@nestjs/common';
-import { Test, type TestingModule } from '@nestjs/testing';
-import request from 'supertest';
-import { HelloService } from '../services/hello.service';
-import { HelloController } from './hello.controller';
-import { expect, it, afterEach, beforeEach, describe } from 'vitest';
+import type { INestApplication } from "@nestjs/common";
+import { Test, type TestingModule } from "@nestjs/testing";
+import request from "supertest";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { HelloService } from "../services/hello.service";
+import { HelloController } from "./hello.controller";
 
-describe('HelloController (e2e)', () => {
+describe("HelloController (e2e)", () => {
   let app: INestApplication;
 
   beforeEach(async () => {
@@ -22,69 +22,65 @@ describe('HelloController (e2e)', () => {
     await app.close();
   });
 
-  describe('POST /hello', () => {
-    it('should return world response for valid hello input', () => {
+  describe("POST /hello", () => {
+    it("should return world response for valid hello input", () => {
       return request(app.getHttpServer())
-        .post('/hello')
-        .send({ input: 'hello' })
+        .post("/hello")
+        .send({ input: "hello" })
         .expect(201)
         .expect({
-          message: 'world',
+          message: "world",
           success: true,
         });
     });
 
-    it('should return 400 for invalid input', () => {
+    it("should return 400 for invalid input", () => {
       return request(app.getHttpServer())
-        .post('/hello')
-        .send({ input: 'invalid' })
+        .post("/hello")
+        .send({ input: "invalid" })
         .expect(400)
         .expect((res) => {
           expect(res.body.success).toBe(false);
-          expect(res.body.message).toBe('Validation failed');
+          expect(res.body.message).toBe("Validation failed");
           expect(res.body.errors).toBeDefined();
-          expect(res.body.errors[0].message).toBe(
-            "Input must be exactly 'hello'",
-          );
+          expect(res.body.errors[0].message).toBe("Input must be exactly 'hello'");
         });
     });
 
-    it('should return 400 for missing input field', () => {
+    it("should return 400 for missing input field", () => {
       return request(app.getHttpServer())
-        .post('/hello')
+        .post("/hello")
         .send({})
         .expect(400)
         .expect((res) => {
           expect(res.body.success).toBe(false);
-          expect(res.body.message).toBe('Validation failed');
+          expect(res.body.message).toBe("Validation failed");
           expect(res.body.errors).toBeDefined();
         });
     });
 
-    it('should return 400 for non-string input', () => {
+    it("should return 400 for non-string input", () => {
       return request(app.getHttpServer())
-        .post('/hello')
+        .post("/hello")
         .send({ input: 123 })
         .expect(400)
         .expect((res) => {
           expect(res.body.success).toBe(false);
-          expect(res.body.message).toBe('Validation failed');
+          expect(res.body.message).toBe("Validation failed");
           expect(res.body.errors).toBeDefined();
         });
     });
 
-    it('should return 400 for empty string input', () => {
+    it("should return 400 for empty string input", () => {
       return request(app.getHttpServer())
-        .post('/hello')
-        .send({ input: '' })
+        .post("/hello")
+        .send({ input: "" })
         .expect(400)
         .expect((res) => {
           expect(res.body.success).toBe(false);
-          expect(res.body.message).toBe('Validation failed');
+          expect(res.body.message).toBe("Validation failed");
           expect(res.body.errors).toBeDefined();
-          expect(res.body.errors[0].message).toBe(
-            "Input must be exactly 'hello'",
-          );
+          expect(res.body.errors[0].message).toBe("Input must be exactly 'hello'");
         });
     });
   });

@@ -41,7 +41,22 @@
       "inputs": ["src/**/*.{ts,tsx,js,jsx}", "*.{ts,tsx,js,jsx}", "biome.json", "package.json"],
       "outputs": []
     },
+    "lint:check": {
+      "cache": true,
+      "inputs": ["src/**/*.{ts,tsx,js,jsx}", "*.{ts,tsx,js,jsx}", "biome.json", "package.json"],
+      "outputs": []
+    },
     "check": {
+      "cache": true,
+      "inputs": [
+        "src/**/*.{ts,tsx,js,jsx,json}",
+        "*.{ts,tsx,js,jsx,json}",
+        "biome.json",
+        "package.json"
+      ],
+      "outputs": []
+    },
+    "check:fix": {
       "cache": true,
       "inputs": [
         "src/**/*.{ts,tsx,js,jsx,json}",

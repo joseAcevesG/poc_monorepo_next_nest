@@ -1,9 +1,9 @@
-import { Test, type TestingModule } from '@nestjs/testing';
-import { beforeEach, describe, expect, it } from 'vitest';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { Test, type TestingModule } from "@nestjs/testing";
+import { beforeEach, describe, expect, it } from "vitest";
+import { AppController } from "./app.controller";
+import { AppService } from "./app.service";
 
-describe('AppController', () => {
+describe("AppController", () => {
   let appController: AppController;
   let appService: AppService;
 
@@ -17,25 +17,25 @@ describe('AppController', () => {
     appService = app.get<AppService>(AppService);
   });
 
-  describe('root', () => {
-    it('should have appService defined', () => {
+  describe("root", () => {
+    it("should have appService defined", () => {
       expect(appService).toBeDefined();
-      expect(appService.getHello()).toBe('Hello World!');
+      expect(appService.getHello()).toBe("Hello World!");
     });
 
-    it('should work with manual instantiation', () => {
+    it("should work with manual instantiation", () => {
       const service = new AppService();
       const controller = new AppController(service);
-      expect(controller.getHello()).toBe('Hello World!');
+      expect(controller.getHello()).toBe("Hello World!");
     });
   });
 
-  describe('health', () => {
-    it('should return health status', () => {
+  describe("health", () => {
+    it("should return health status", () => {
       const result = appController.getHealth();
-      expect(result).toHaveProperty('status', 'ok');
-      expect(result).toHaveProperty('timestamp');
-      expect(typeof result.timestamp).toBe('string');
+      expect(result).toHaveProperty("status", "ok");
+      expect(result).toHaveProperty("timestamp");
+      expect(typeof result.timestamp).toBe("string");
     });
   });
 });

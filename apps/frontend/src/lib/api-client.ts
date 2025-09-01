@@ -1,10 +1,10 @@
-import type { HelloInput, HelloResponse } from '@monorepo-poc/schemas';
+import type { HelloInput, HelloResponse } from "@monorepo-poc/schemas";
 
 /**
  * API client configuration
  */
 const API_CONFIG = {
-  baseUrl: process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001',
+  baseUrl: process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3001",
   timeout: 10000, // 10 seconds
 };
 
@@ -18,7 +18,7 @@ export class ApiError extends Error {
     public response?: HelloResponse,
   ) {
     super(message);
-    this.name = 'ApiError';
+    this.name = "ApiError";
   }
 }
 
@@ -37,10 +37,7 @@ export class ApiClient {
   /**
    * Make HTTP request with timeout and error handling
    */
-  private async makeRequest<T>(
-    endpoint: string,
-    options: RequestInit = {},
-  ): Promise<T> {
+  private async makeRequest<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
     const url = `${this.baseUrl}${endpoint}`;
 
     // Create abort controller for timeout
@@ -52,7 +49,7 @@ export class ApiClient {
         ...options,
         signal: controller.signal,
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           ...options.headers,
         },
       });
@@ -60,8 +57,8 @@ export class ApiClient {
       clearTimeout(timeoutId);
 
       // Handle non-JSON responses
-      const contentType = response.headers.get('content-type');
-      if (!contentType?.includes('application/json')) {
+      const contentType = response.headers.get("content-type");
+      if (!contentType?.includes("application/json")) {
         throw new ApiError(
           `Invalid response format: expected JSON, got ${contentType}`,
           response.status,
@@ -84,15 +81,13 @@ export class ApiClient {
       clearTimeout(timeoutId);
 
       // Handle timeout errors
-      if (error instanceof Error && error.name === 'AbortError') {
-        throw new ApiError('Request timeout - please try again');
+      if (error instanceof Error && error.name === "AbortError") {
+        throw new ApiError("Request timeout - please try again");
       }
 
       // Handle network errors
-      if (error instanceof TypeError && error.message.includes('fetch')) {
-        throw new ApiError(
-          'Network error - please check your connection and try again',
-        );
+      if (error instanceof TypeError && error.message.includes("fetch")) {
+        throw new ApiError("Network error - please check your connection and try again");
       }
 
       // Re-throw API errors
@@ -101,9 +96,7 @@ export class ApiClient {
       }
 
       // Handle unknown errors
-      throw new ApiError(
-        error instanceof Error ? error.message : 'An unexpected error occurred',
-      );
+      throw new ApiError(error instanceof Error ? error.message : "An unexpected error occurred");
     }
   }
 
@@ -111,8 +104,8 @@ export class ApiClient {
    * Send hello request to backend API
    */
   async sendHello(input: HelloInput): Promise<HelloResponse> {
-    return this.makeRequest<HelloResponse>('/hello', {
-      method: 'POST',
+    return this.makeRequest<HelloResponse>("/hello", {
+      method: "POST",
       body: JSON.stringify(input),
     });
   }
@@ -121,7 +114,7 @@ export class ApiClient {
    * Health check endpoint (optional)
    */
   async healthCheck(): Promise<{ status: string }> {
-    return this.makeRequest<{ status: string }>('/health');
+    return this.makeRequest<{ status: string }>("/health");
   }
 }
 

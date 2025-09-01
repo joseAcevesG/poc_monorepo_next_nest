@@ -1,12 +1,9 @@
-'use client';
+"use client";
 
-import {
-  type HelloInput,
-  HelloInputSchema,
-  type HelloResponse,
-} from '@monorepo-poc/schemas';
-import React, { useId, useState } from 'react';
-import { apiClient, ApiError } from '../lib/api-client';
+import { type HelloInput, HelloInputSchema, type HelloResponse } from "@monorepo-poc/schemas";
+import type React from "react";
+import { useId, useState } from "react";
+import { ApiError, apiClient } from "../lib/api-client";
 
 interface HelloFormProps {
   onSubmit?: (data: HelloInput) => Promise<HelloResponse>;
@@ -14,8 +11,8 @@ interface HelloFormProps {
 
 export default function HelloForm({ onSubmit }: HelloFormProps) {
   const inputId = useId();
-  const [input, setInput] = useState<string>('');
-  const [error, setError] = useState<string>('');
+  const [input, setInput] = useState<string>("");
+  const [error, setError] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [response, setResponse] = useState<HelloResponse | null>(null);
 
@@ -23,9 +20,9 @@ export default function HelloForm({ onSubmit }: HelloFormProps) {
   const validateInput = (value: string): string => {
     const result = HelloInputSchema.safeParse({ input: value });
     if (!result.success) {
-      return result.error.issues?.[0]?.message || 'Invalid input';
+      return result.error.issues?.[0]?.message || "Invalid input";
     }
-    return '';
+    return "";
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -42,9 +39,7 @@ export default function HelloForm({ onSubmit }: HelloFormProps) {
     }
   };
 
-  const handleSubmit = async (
-    e: React.FormEvent<HTMLFormElement>,
-  ): Promise<void> => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
 
     // Validate before submission
@@ -55,7 +50,7 @@ export default function HelloForm({ onSubmit }: HelloFormProps) {
     }
 
     setIsSubmitting(true);
-    setError('');
+    setError("");
 
     try {
       const data: HelloInput = { input };
@@ -78,27 +73,22 @@ export default function HelloForm({ onSubmit }: HelloFormProps) {
           setResponse(err.response);
         }
       } else {
-        setError(err instanceof Error ? err.message : 'An error occurred');
+        setError(err instanceof Error ? err.message : "An error occurred");
       }
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const isValid = input.length > 0 && error === '';
+  const isValid = input.length > 0 && error === "";
 
   return (
     <div className="w-full max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
-        Hello World Validator
-      </h2>
+      <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Hello World Validator</h2>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label
-            htmlFor={inputId}
-            className="block text-sm font-medium text-gray-700 mb-2"
-          >
+          <label htmlFor={inputId} className="block text-sm font-medium text-gray-700 mb-2">
             Enter your message:
           </label>
           <input
@@ -108,16 +98,13 @@ export default function HelloForm({ onSubmit }: HelloFormProps) {
             onChange={handleInputChange}
             placeholder="Type 'hello' here..."
             className={`w-full px-3 py-2  border rounded-md text-black focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-              error ? 'border-red-500' : 'border-gray-300'
+              error ? "border-red-500" : "border-gray-300"
             }`}
             disabled={isSubmitting}
             data-testid="hello-input"
           />
           {error && (
-            <p
-              className="mt-1 text-sm text-red-600"
-              data-testid="error-message"
-            >
+            <p className="mt-1 text-sm text-red-600" data-testid="error-message">
               {error}
             </p>
           )}
@@ -128,12 +115,12 @@ export default function HelloForm({ onSubmit }: HelloFormProps) {
           disabled={!isValid || isSubmitting}
           className={`w-full py-2 px-4 rounded-md font-medium transition-colors ${
             isValid && !isSubmitting
-              ? 'bg-blue-600 hover:bg-blue-700 text-white'
-              : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+              ? "bg-blue-600 hover:bg-blue-700 text-white"
+              : "bg-gray-300 text-gray-500 cursor-not-allowed"
           }`}
           data-testid="submit-button"
         >
-          {isSubmitting ? 'Submitting...' : 'Submit'}
+          {isSubmitting ? "Submitting..." : "Submit"}
         </button>
       </form>
 
@@ -141,14 +128,14 @@ export default function HelloForm({ onSubmit }: HelloFormProps) {
         <div
           className={`mt-4 p-3 rounded-md ${
             response.success
-              ? 'bg-green-100 border border-green-300'
-              : 'bg-red-100 border border-red-300'
+              ? "bg-green-100 border border-green-300"
+              : "bg-red-100 border border-red-300"
           }`}
           data-testid="response-message"
         >
           <p
             className={`text-sm font-medium ${
-              response.success ? 'text-green-800' : 'text-red-800'
+              response.success ? "text-green-800" : "text-red-800"
             }`}
           >
             {response.message}
