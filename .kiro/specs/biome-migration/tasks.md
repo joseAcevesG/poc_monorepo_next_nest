@@ -70,8 +70,8 @@
   - Remove rules now handled by Biome domains
   - _Requirements: 4.2, 4.3_
 
-- [ ] 5. Update package.json scripts for Biome commands
-- [ ] 5.1 Add Biome scripts to root package.json
+- [x] 5. Update package.json scripts for Biome commands
+- [x] 5.1 Add Biome scripts to root package.json
 
   - Add "format": "biome format --write ." command
   - Add "format:check": "biome format ." command
@@ -79,14 +79,14 @@
   - Add "check": "biome check ." command for combined linting and formatting
   - _Requirements: 5.1, 5.2, 5.4_
 
-- [ ] 5.2 Add Biome scripts to app-level package.json files
+- [x] 5.2 Add Biome scripts to app-level package.json files
 
   - Update apps/frontend/package.json with Biome scripts
   - Update apps/backend/package.json with Biome scripts
   - Update packages/schemas/package.json with Biome scripts
   - _Requirements: 5.4_
 
-- [ ] 5.3 Update combined lint scripts to run both Biome and ESLint
+- [x] 5.3 Update combined lint scripts to run both Biome and ESLint
 
   - Create "lint:all" script that runs both Biome and ESLint
   - Update existing lint scripts to prioritize Biome

@@ -9,7 +9,12 @@
 		"dev": "tsc --watch",
 		"test": "vitest run",
 		"test:watch": "vitest",
-		"clean": "rm -rf dist"
+		"clean": "rm -rf dist",
+		"format": "biome format --write .",
+		"format:check": "biome format .",
+		"lint": "biome lint .",
+		"lint:all": "biome lint .",
+		"check": "biome check ."
 	},
 	"dependencies": {
 		"zod": "4.1.4"
