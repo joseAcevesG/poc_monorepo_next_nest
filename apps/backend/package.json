@@ -9,20 +9,20 @@
     "node": ">=22.0.0"
   },
   "scripts": {
-    "build": "nest build",
-    "format": "biome format --write .",
     "start": "node dist/main",
+    "build": "nest build",
     "dev": "nest start --watch",
     "dev:debug": "nest start --debug --watch",
-    "lint": "biome lint .",
-    "lint:fix": "biome lint --write .",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:cov": "vitest run --coverage",
     "test:e2e": "vitest run --config ./vitest.e2e.config.ts",
-    "format:check": "biome format .",
-    "check": "biome check .",
-    "check:fix": "biome check --write ."
+    "lint": "biome lint ./src ./test",
+    "lint:fix": "biome lint --write ./src ./test",
+    "format": "biome format --write ./src ./test",
+    "format:check": "biome format ./src ./test",
+    "check": "biome check ./src ./test",
+    "check:fix": "biome check --write ./src ./test"
   },
   "dependencies": {
     "@monorepo-poc/schemas": "workspace:*",
