@@ -1,8 +1,8 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  output: "standalone",
-  outputFileTracingRoot: "../../",
+  output: 'standalone',
+  outputFileTracingRoot: '../../',
 };
 
 export default nextConfig;

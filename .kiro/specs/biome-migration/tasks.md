@@ -93,15 +93,15 @@
   - Ensure proper error handling and exit codes
   - _Requirements: 4.4, 5.3_
 
-- [ ] 6. Configure Turborepo integration for Biome
-- [ ] 6.1 Update turbo.json to include Biome tasks
+- [x] 6. Configure Turborepo integration for Biome
+- [x] 6.1 Update turbo.json to include Biome tasks
 
   - Add "format" task to turbo.json with proper caching
   - Add "lint" task to turbo.json with proper caching
   - Configure task dependencies and outputs
   - _Requirements: 5.5_
 
-- [ ] 6.2 Test Turborepo caching with Biome operations
+- [x] 6.2 Test Turborepo caching with Biome operations
 
   - Verify that Biome format operations are cached correctly
   - Verify that Biome lint operations are cached correctly

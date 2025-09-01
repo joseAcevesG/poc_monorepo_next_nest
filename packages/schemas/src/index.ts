@@ -6,8 +6,8 @@
  */
 
 export {
-	type HelloInput,
-	HelloInputSchema,
-	type HelloResponse,
-	HelloResponseSchema,
-} from "./hello.schema";
+  type HelloInput,
+  HelloInputSchema,
+  type HelloResponse,
+  HelloResponseSchema,
+} from './hello.schema';

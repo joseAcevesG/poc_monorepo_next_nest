@@ -15,8 +15,47 @@
 			"cache": false,
 			"persistent": true
 		},
+		"format": {
+			"cache": true,
+			"inputs": [
+				"src/**/*.{ts,tsx,js,jsx,json}",
+				"*.{ts,tsx,js,jsx,json}",
+				"biome.json",
+				"package.json"
+			],
+			"outputs": []
+		},
+		"format:check": {
+			"cache": true,
+			"inputs": [
+				"src/**/*.{ts,tsx,js,jsx,json}",
+				"*.{ts,tsx,js,jsx,json}",
+				"biome.json",
+				"package.json"
+			],
+			"outputs": []
+		},
 		"lint": {
-			"dependsOn": ["^build"]
+			"dependsOn": ["^build"],
+			"cache": true,
+			"inputs": [
+				"src/**/*.{ts,tsx,js,jsx}",
+				"*.{ts,tsx,js,jsx}",
+				"biome.json",
+				"eslint.config.mjs",
+				"package.json"
+			],
+			"outputs": []
+		},
+		"check": {
+			"cache": true,
+			"inputs": [
+				"src/**/*.{ts,tsx,js,jsx,json}",
+				"*.{ts,tsx,js,jsx,json}",
+				"biome.json",
+				"package.json"
+			],
+			"outputs": []
 		},
 		"test": {
 			"dependsOn": ["^build"],

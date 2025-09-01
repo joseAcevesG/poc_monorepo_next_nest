@@ -1,13 +1,13 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 /**
  * Schema for validating hello input
  * Ensures the input field contains exactly "hello"
  */
 export const HelloInputSchema = z.object({
-	input: z.string().refine((val) => val === "hello", {
-		message: "Input must be exactly 'hello'",
-	}),
+  input: z.string().refine((val) => val === 'hello', {
+    message: "Input must be exactly 'hello'",
+  }),
 });
 
 /**
@@ -15,8 +15,8 @@ export const HelloInputSchema = z.object({
  * Defines the structure of API responses
  */
 export const HelloResponseSchema = z.object({
-	message: z.string(),
-	success: z.boolean(),
+  message: z.string(),
+  success: z.boolean(),
 });
 
 /**
