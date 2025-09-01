@@ -13,6 +13,11 @@
       "!**/node_modules"
     ]
   },
+  "javascript": {
+    "parser": {
+      "unsafeParameterDecoratorsEnabled": true
+    }
+  },
 
   "linter": {
     "domains": {

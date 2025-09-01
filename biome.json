@@ -66,10 +66,6 @@
       "security": {
         "noDangerouslySetInnerHtml": "error",
         "noDangerouslySetInnerHtmlWithChildren": "error"
-      },
-      "nursery": {
-        "noImportCycles": "warn",
-        "noUnresolvedImports": "error"
       }
     }
   },

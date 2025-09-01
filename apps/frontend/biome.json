@@ -24,7 +24,8 @@
       },
       "suspicious": {
         "noConsole": "error",
-        "noDebugger": "error"
+        "noDebugger": "error",
+        "noUnknownAtRules": "off"
       }
     }
   },

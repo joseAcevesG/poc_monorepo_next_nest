@@ -1,7 +1,6 @@
 import type { HelloResponse } from "@monorepo-poc/schemas";
 import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import React from "react";
+import * as userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ApiError } from "../lib/api-client";
 import HelloForm from "./HelloForm";

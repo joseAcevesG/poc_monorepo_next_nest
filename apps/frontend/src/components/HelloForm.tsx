@@ -1,7 +1,6 @@
 "use client";
 
 import { type HelloInput, HelloInputSchema, type HelloResponse } from "@monorepo-poc/schemas";
-import type React from "react";
 import { useId, useState } from "react";
 import { ApiError, apiClient } from "../lib/api-client";
 

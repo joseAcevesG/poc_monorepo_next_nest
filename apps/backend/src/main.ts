@@ -16,4 +16,6 @@ async function bootstrap() {
   await app.listen(port);
   console.log(`Backend application is running on: http://localhost:${port}`);
 }
-bootstrap();
+bootstrap()
+  .then(() => console.log("Backend application started successfully"))
+  .catch((error) => console.error("Failed to start backend application", error));
