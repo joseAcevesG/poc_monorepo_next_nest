@@ -133,6 +133,33 @@ pnpm --filter @monorepo-poc/schemas add -E <package>
 pnpm add -ED <package>
 ```
 
+### Code Quality and Formatting
+
+This project uses **Biome 2.2** as the linter and formatter:
+
+```bash
+# Format code (replaces Prettier)
+pnpm format
+
+# Check formatting without making changes
+pnpm format:check
+
+# Lint code with Biome
+pnpm lint
+
+# Combined check and format
+pnpm check
+```
+
+**Biome Features:**
+
+- **Domains**: Automatic framework detection and rule activation
+- **Monorepo Support**: Hierarchical configuration with app-specific overrides
+- **Performance**: Significantly faster than traditional ESLint + Prettier setup
+- **Next.js Domain**: Automatic Next.js-specific rules when Next.js ≥14.0.0 detected
+- **React Domain**: React hooks and JSX linting when React ≥16.0.0 detected
+- **Project Domain**: Cross-file analysis and import cycle detection
+
 ### Building Applications
 
 ```bash
@@ -238,18 +265,19 @@ gh workflow run deploy-backend.yml
 
 ## 🛠️ Technology Stack
 
-| Component            | Technology     | Version |
-| -------------------- | -------------- | ------- |
-| **Runtime**          | Node.js        | 22+     |
-| **Package Manager**  | pnpm           | 10+     |
-| **Build System**     | Turborepo      | 2.5+    |
-| **Frontend**         | Next.js        | 15      |
-| **Backend**          | Nest.js        | Latest  |
-| **Validation**       | Zod            | 4.1.4   |
-| **Testing**          | Vitest         | 3.2.4   |
-| **Containerization** | Docker         | Latest  |
-| **CI/CD**            | GitHub Actions | -       |
-| **Cloud**            | AWS (ECR, EC2) | -       |
+| Component              | Technology     | Version |
+| ---------------------- | -------------- | ------- |
+| **Runtime**            | Node.js        | 22+     |
+| **Package Manager**    | pnpm           | 10+     |
+| **Build System**       | Turborepo      | 2.5+    |
+| **Frontend**           | Next.js        | 15      |
+| **Backend**            | Nest.js        | Latest  |
+| **Validation**         | Zod            | 4.1.4   |
+| **Testing**            | Vitest         | 3.2.4   |
+| **Linting/Formatting** | Biome          | 2.2.2   |
+| **Containerization**   | Docker         | Latest  |
+| **CI/CD**              | GitHub Actions | -       |
+| **Cloud**              | AWS (ECR, EC2) | -       |
 
 ## 📋 Available Scripts
 
@@ -259,7 +287,9 @@ gh workflow run deploy-backend.yml
 pnpm dev          # Start all services in development mode
 pnpm build        # Build all packages
 pnpm test         # Run all tests
-pnpm lint         # Lint all packages
+pnpm lint         # Lint with Biome
+pnpm format       # Format code with Biome
+pnpm check        # Combined lint and format check
 pnpm clean        # Clean all build artifacts
 ```
 

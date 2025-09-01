@@ -1,52 +1,42 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.2.0/schema.json",
-  "extends": "//",
   "root": false,
-  "linter": {
-    "rules": {
-      "suspicious": {
-        "noConsole": "warn"
-      },
-      "style": {
-        "useNamingConvention": {
-          "level": "warn",
-          "options": {
-            "conventions": [
-              {
-                "selector": {
-                  "kind": "classMember",
-                  "modifiers": ["private"]
-                },
-                "match": "_(.+)",
-                "formats": ["camelCase"]
-              },
-              {
-                "selector": {
-                  "kind": "class"
-                },
-                "formats": ["PascalCase"]
-              }
-            ]
-          }
-        }
-      },
-      "correctness": {
-        "noUnusedImports": "warn"
-      }
-    }
-  },
-  "javascript": {
-    "parser": {
-      "unsafeParameterDecoratorsEnabled": true
-    }
-  },
+  "extends": "//",
+
   "files": {
     "includes": [
-      "**/*.ts",
-      "**/*.js",
-      "!node_modules/**",
-      "!dist/**",
-      "!coverage/**"
+      "**",
+      "!dist",
+      "!**/dist",
+      "!coverage",
+      "!**/coverage",
+      "!node_modules",
+      "!**/node_modules"
     ]
+  },
+
+  "linter": {
+    "domains": {
+      "project": "recommended",
+      "test": "recommended"
+    },
+    "rules": {
+      "style": {
+        "useImportType": "off",
+        "useNodejsImportProtocol": "error"
+      },
+      "suspicious": {
+        "noExplicitAny": "error",
+        "noImplicitAnyLet": "warn"
+      },
+      "nursery": {
+        "noFloatingPromises": "warn"
+      },
+      "security": {
+        "noGlobalEval": "error"
+      },
+      "correctness": {
+        "noProcessGlobal": "error"
+      }
+    }
   }
 }

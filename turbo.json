@@ -1,69 +1,63 @@
 {
-	"$schema": "https://turbo.build/schema.json",
-	"tasks": {
-		"build": {
-			"dependsOn": ["^build"],
-			"outputs": [".next/**", "!.next/cache/**", "dist/**"]
-		},
-		"start": {
-			"cache": false,
-			"persistent": true,
-			"dependsOn": ["^build"],
-			"outputs": [".next/**", "!.next/cache/**", "dist/**"]
-		},
-		"dev": {
-			"cache": false,
-			"persistent": true
-		},
-		"format": {
-			"cache": true,
-			"inputs": [
-				"src/**/*.{ts,tsx,js,jsx,json}",
-				"*.{ts,tsx,js,jsx,json}",
-				"biome.json",
-				"package.json"
-			],
-			"outputs": []
-		},
-		"format:check": {
-			"cache": true,
-			"inputs": [
-				"src/**/*.{ts,tsx,js,jsx,json}",
-				"*.{ts,tsx,js,jsx,json}",
-				"biome.json",
-				"package.json"
-			],
-			"outputs": []
-		},
-		"lint": {
-			"dependsOn": ["^build"],
-			"cache": true,
-			"inputs": [
-				"src/**/*.{ts,tsx,js,jsx}",
-				"*.{ts,tsx,js,jsx}",
-				"biome.json",
-				"eslint.config.mjs",
-				"package.json"
-			],
-			"outputs": []
-		},
-		"check": {
-			"cache": true,
-			"inputs": [
-				"src/**/*.{ts,tsx,js,jsx,json}",
-				"*.{ts,tsx,js,jsx,json}",
-				"biome.json",
-				"package.json"
-			],
-			"outputs": []
-		},
-		"test": {
-			"dependsOn": ["^build"],
-			"outputs": ["coverage/**"]
-		},
-		"clean": {
-			"cache": false,
-			"outputs": [".next/**", "!.next/cache/**", "dist/**"]
-		}
-	}
+  "$schema": "https://turbo.build/schema.json",
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": [".next/**", "!.next/cache/**", "dist/**"]
+    },
+    "start": {
+      "cache": false,
+      "persistent": true,
+      "dependsOn": ["^build"],
+      "outputs": [".next/**", "!.next/cache/**", "dist/**"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "format": {
+      "cache": true,
+      "inputs": [
+        "src/**/*.{ts,tsx,js,jsx,json}",
+        "*.{ts,tsx,js,jsx,json}",
+        "biome.json",
+        "package.json"
+      ],
+      "outputs": []
+    },
+    "format:check": {
+      "cache": true,
+      "inputs": [
+        "src/**/*.{ts,tsx,js,jsx,json}",
+        "*.{ts,tsx,js,jsx,json}",
+        "biome.json",
+        "package.json"
+      ],
+      "outputs": []
+    },
+    "lint": {
+      "dependsOn": ["^build"],
+      "cache": true,
+      "inputs": ["src/**/*.{ts,tsx,js,jsx}", "*.{ts,tsx,js,jsx}", "biome.json", "package.json"],
+      "outputs": []
+    },
+    "check": {
+      "cache": true,
+      "inputs": [
+        "src/**/*.{ts,tsx,js,jsx,json}",
+        "*.{ts,tsx,js,jsx,json}",
+        "biome.json",
+        "package.json"
+      ],
+      "outputs": []
+    },
+    "test": {
+      "dependsOn": ["^build"],
+      "outputs": ["coverage/**"]
+    },
+    "clean": {
+      "cache": false,
+      "outputs": [".next/**", "!.next/cache/**", "dist/**"]
+    }
+  }
 }

@@ -1,34 +1,33 @@
 {
-	"name": "monorepo_test",
-	"version": "1.0.0",
-	"description": "Proof-of-concept monorepo with Next.js frontend, Nest.js backend, and shared Zod schemas",
-	"private": true,
-	"scripts": {
-		"start": "turbo start",
-		"build": "turbo build",
-		"dev": "turbo dev",
-		"dev:app": "turbo dev --filter",
-		"build:app": "turbo build --filter",
-		"test:app": "turbo test --filter",
-		"lint": "biome lint .",
-		"lint:all": "turbo lint:all",
-		"test": "turbo test",
-		"clean": "turbo clean",
-		"format": "biome format --write .",
-		"format:check": "biome format .",
-		"check": "biome check ."
-	},
-	"keywords": [],
-	"author": "",
-	"license": "ISC",
-	"packageManager": "pnpm@10.15.0",
-	"devDependencies": {
-		"@biomejs/biome": "2.2.2",
-		"turbo": "2.5.6",
-		"typescript": "5.9.2"
-	},
-	"engines": {
-		"node": ">=22.0.0",
-		"pnpm": ">=10.0.0"
-	}
+  "name": "monorepo_test",
+  "version": "1.0.0",
+  "description": "Proof-of-concept monorepo with Next.js frontend, Nest.js backend, and shared Zod schemas",
+  "private": true,
+  "scripts": {
+    "start": "turbo start",
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "dev:app": "turbo dev --filter",
+    "build:app": "turbo build --filter",
+    "test:app": "turbo test --filter",
+    "lint": "biome lint .",
+    "test": "turbo test",
+    "clean": "turbo clean",
+    "format": "biome format --write .",
+    "format:check": "biome format .",
+    "check": "biome check ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.15.0",
+  "devDependencies": {
+    "@biomejs/biome": "2.2.2",
+    "turbo": "2.5.6",
+    "typescript": "5.9.2"
+  },
+  "engines": {
+    "node": ">=22.0.0",
+    "pnpm": ">=10.0.0"
+  }
 }

@@ -1,94 +1,98 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.2.2/schema.json",
-  "linter": {
-    "enabled": true,
-    "rules": {
-      "recommended": true,
-      "correctness": {
-        "noUnusedVariables": "error",
-        "noUndeclaredVariables": "error",
-        "useImportExtensions": "warn"
-      },
-      "suspicious": {
-        "noExplicitAny": "warn",
-        "noConsole": "warn",
-        "noGlobalIsFinite": "error",
-        "noGlobalIsNan": "error"
-      },
-      "style": {
-        "useConst": "error",
-        "useTemplate": "error",
-        "noUnusedTemplateLiteral": "warn",
-        "useConsistentArrayType": "warn",
-        "useExportType": "warn",
-        "useImportType": "warn",
-        "useNamingConvention": {
-          "level": "warn",
-          "options": {
-            "conventions": [
-              {
-                "selector": {
-                  "kind": "class"
-                },
-                "formats": ["PascalCase"]
-              },
-              {
-                "selector": {
-                  "kind": "interface"
-                },
-                "formats": ["PascalCase"]
-              },
-              {
-                "selector": {
-                  "kind": "typeAlias"
-                },
-                "formats": ["PascalCase"]
-              }
-            ]
-          }
-        }
-      },
-      "performance": {
-        "noAccumulatingSpread": "warn",
-        "noDelete": "warn"
-      },
-      "complexity": {
-        "useSimplifiedLogicExpression": "warn",
-        "noExcessiveCognitiveComplexity": "warn"
-      },
-      "nursery": {
-        "useSortedClasses": "warn",
-        "noSecrets": "warn"
-      }
-    },
-    "domains": {
-      "project": "recommended",
-      "test": "recommended"
-    }
-  },
-  "formatter": {
-    "enabled": true,
-    "lineWidth": 80,
-    "indentStyle": "space",
-    "indentWidth": 2
-  },
-  "javascript": {
-    "formatter": {
-      "quoteStyle": "single",
-      "trailingCommas": "all"
-    },
-    "parser": {
-      "unsafeParameterDecoratorsEnabled": true
-    },
-    "globals": ["vi"]
-  },
-  "files": {
-    "includes": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
-    "ignoreUnknown": false
-  },
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+
   "vcs": {
     "enabled": true,
     "clientKind": "git",
-    "useIgnoreFile": true
-  }
+    "useIgnoreFile": true,
+    "defaultBranch": "main"
+  },
+
+  "files": {
+    "includes": [
+      "**",
+      "!dist",
+      "!**/dist",
+      "!coverage",
+      "!**/coverage",
+      "!node_modules",
+      "!**/node_modules"
+    ]
+  },
+
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 100
+  },
+
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": {
+          "level": "on",
+          "options": {
+            "groups": [
+              ":URL:",
+              ":PACKAGE_WITH_PROTOCOL:",
+              ":NODE:",
+              ":PACKAGE:",
+              ":ALIAS:",
+              ":PATH:"
+            ]
+          }
+        }
+      }
+    }
+  },
+
+  "linter": {
+    "enabled": true,
+    "domains": {
+      "project": "recommended",
+      "test": "recommended"
+    },
+    "rules": {
+      "recommended": true,
+      "correctness": {
+        "noUnusedImports": "error",
+        "noUnusedVariables": "error",
+        "noUndeclaredDependencies": "error"
+      },
+      "suspicious": {
+        "noDebugger": "error"
+      },
+      "security": {
+        "noDangerouslySetInnerHtml": "error",
+        "noDangerouslySetInnerHtmlWithChildren": "error"
+      },
+      "nursery": {
+        "noImportCycles": "warn",
+        "noUnresolvedImports": "error"
+      }
+    }
+  },
+
+  "overrides": [
+    {
+      "includes": ["packages/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "useImportType": "error",
+            "useNodejsImportProtocol": "error"
+          },
+          "suspicious": { "noConsole": "warn" }
+        }
+      }
+    },
+
+    {
+      "includes": ["**/*.{test,spec}.{ts,tsx,js,jsx}", "**/__tests__/**", "e2e/**", "test/**"],
+      "linter": {
+        "domains": { "test": "recommended" }
+      }
+    }
+  ]
 }

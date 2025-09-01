@@ -1,39 +1,43 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.2.0/schema.json",
-  "extends": "//",
   "root": false,
+  "extends": "//",
+
+  "files": {
+    "includes": ["!next", "!out", "!build", "!next-env.d.ts", "!node_modules"]
+  },
+
   "linter": {
     "domains": {
       "next": "recommended",
-      "react": "recommended"
+      "react": "recommended",
+      "project": "recommended",
+      "test": "recommended"
     },
     "rules": {
-      "suspicious": {
-        "noConsole": "off"
+      "security": {
+        "noDangerouslySetInnerHtml": "error",
+        "noDangerouslySetInnerHtmlWithChildren": "error"
       },
       "a11y": {
-        "useKeyWithClickEvents": "warn",
-        "useKeyWithMouseEvents": "warn",
-        "noAccessKey": "warn",
-        "useAltText": "warn"
+        "useAltText": "error",
+        "noSvgWithoutTitle": "warn"
+      },
+      "suspicious": {
+        "noConsole": "error",
+        "noDebugger": "error"
       }
     }
   },
-  "javascript": {
-    "formatter": {
-      "jsxQuoteStyle": "double",
-      "quoteProperties": "asNeeded"
+
+  "overrides": [
+    {
+      "includes": ["**/*.{test,spec}.{ts,tsx,js,jsx}", "**/__tests__/**"],
+      "linter": {
+        "domains": { "test": "all" },
+        "rules": {
+          "suspicious": { "noConsole": "off" }
+        }
+      }
     }
-  },
-  "files": {
-    "includes": [
-      "**/*.ts",
-      "**/*.tsx",
-      "**/*.js",
-      "**/*.jsx",
-      "!.next/**",
-      "!node_modules/**",
-      "!dist/**"
-    ]
-  }
+  ]
 }
