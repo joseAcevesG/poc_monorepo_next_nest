@@ -7,7 +7,7 @@
   - Configure schema reference for IDE support
   - _Requirements: 1.1, 2.1, 2.2_
 
-- [ ] 2. Create root Biome configuration with domains
+- [x] 2. Create root Biome configuration with domains
 - [x] 2.1 Implement base biome.json with domains configuration
 
   - Write root biome.json with Project and Test domains only
@@ -22,8 +22,8 @@
   - Add code quality rules (noUnusedTemplateLiteral, useShorthandArrayType)
   - _Requirements: 2.1, 6.1_
 
-- [ ] 3. Create app-specific Biome configurations
-- [ ] 3.1 Implement frontend app Biome configuration
+- [x] 3. Create app-specific Biome configurations
+- [x] 3.1 Implement frontend app Biome configuration
 
   - Create apps/frontend/biome.json extending root with "extends": "//"
   - Set root: false for nested configuration
@@ -31,14 +31,14 @@
   - Configure JSX and React-specific formatting preferences
   - _Requirements: 3.1, 3.3_
 
-- [ ] 3.2 Implement backend app Biome configuration
+- [x] 3.2 Implement backend app Biome configuration
 
   - Create apps/backend/biome.json extending root with "extends": "//"
   - Set root: false for nested configuration
   - Add Nest.js specific overrides for decorators and API patterns
   - _Requirements: 3.2, 3.3_
 
-- [ ] 3.3 Implement shared package Biome configuration
+- [x] 3.3 Implement shared package Biome configuration
 
   - Create packages/schemas/biome.json extending root configuration
   - Configure library-specific rules (no console.log, strict exports)
