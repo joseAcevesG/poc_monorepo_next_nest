@@ -2,6 +2,10 @@
 inclusion: always
 ---
 
+---
+
+## inclusion: always
+
 # Technology Stack & Development Guidelines
 
 ## Required Technologies
@@ -35,7 +39,7 @@ inclusion: always
 - Use Vitest 3.2.4 for testing (not Jest)
 - Build with TypeScript compiler
 
-## Dependency Management
+## Dependency Management Rules
 
 **CRITICAL**: Always use CLI commands to add dependencies, never manually edit package.json files.
 
@@ -43,18 +47,17 @@ inclusion: always
 
 ```bash
 # Add dependencies using pnpm CLI with exact versions
-pnpm add -E <package>                 # Add production dependency
-pnpm add -ED <package>             # Add dev dependency
-pnpm --filter <workspace> add -E <package>  # Add to specific workspace
+pnpm add -E <package>                          # Add production dependency
+pnpm add -ED <package>                         # Add dev dependency
+pnpm --filter <workspace> add -E <package>     # Add to specific workspace
 
 # Examples with exact versions
-pnpm add -E zod                         # Add to root
-pnpm --filter @monorepo-poc/schemas add -E zod  # Add to schemas package
-pnpm add -ED vitest                   # Add dev dependency
-pnpm add -ED typescript               # Add TypeScript dev dependency
+pnpm add -E zod                                # Add to root
+pnpm --filter @monorepo-poc/schemas add -E zod # Add to schemas package
+pnpm add -ED vitest                            # Add dev dependency
 ```
 
-## Command Patterns
+## Standard Commands
 
 Always use these exact commands:
 
@@ -73,7 +76,7 @@ turbo test                     # Run all tests
 pnpm --filter <package> test   # Test specific package
 ```
 
-## Code Conventions
+## Code Style & Conventions
 
 ### Package Dependencies
 
@@ -81,11 +84,12 @@ pnpm --filter <package> test   # Test specific package
 - Always use workspace protocol for internal packages
 - Place shared deps in root package.json when possible
 
-### TypeScript Configuration
+### TypeScript Patterns
 
 - Enable strict mode in all tsconfig.json files
 - Use explicit return types for functions
 - Import types with `import type` syntax
+- Use TypeScript decorators for Nest.js controllers/services
 
 ### Validation Patterns
 
@@ -93,30 +97,43 @@ pnpm --filter <package> test   # Test specific package
 // Always import from shared schemas
 import { HelloInputSchema } from "@monorepo-poc/schemas";
 
-// Use .parse() for validation with errors
+// Use .parse() for validation with errors (throws on invalid)
 const validated = HelloInputSchema.parse(input);
 
-// Use .safeParse() when handling user input
+// Use .safeParse() when handling user input (returns result object)
 const result = HelloInputSchema.safeParse(input);
+if (!result.success) {
+	// Handle validation errors
+}
 ```
 
-### File Naming
+### File Naming Conventions
 
 - TypeScript files: camelCase (helloSchema.ts)
 - React components: PascalCase (HelloForm.tsx)
 - Test files: .test.ts or .spec.ts suffix
 - Config files: lowercase (package.json, dockerfile)
 
-## Docker Requirements
+## Docker & Deployment
+
+### Docker Requirements
 
 - Use Node.js 22 Alpine base images only
 - Multi-stage builds required for production
 - Include proper .dockerignore files
 - Build from monorepo root with proper context
 
-## Build Pipeline Rules
+### Build Pipeline Rules
 
 - All builds must go through Turborepo
 - Configure task dependencies in turbo.json
 - Use caching for all build operations
 - Test before build in CI/CD pipelines
+
+## Testing Standards
+
+- Use Vitest 3.2.4 for all testing (never Jest)
+- Use React Testing Library for component tests
+- Use Supertest for API integration tests
+- Test files must use .test.ts or .spec.ts suffix
+- Run tests through Turborepo: `turbo test`

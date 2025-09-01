@@ -1,26 +1,63 @@
-# Product Overview
+---
+inclusion: always
+---
 
-## Monorepo POC - Full-Stack Validation Demo
+# Product Requirements & Architecture
 
-This is a proof-of-concept monorepo demonstrating modern full-stack development patterns with shared validation logic. The application implements a simple "hello world" validation flow where users input "hello" and receive "world" as a response.
+## Core Application Logic
 
-### Core Purpose
+This monorepo implements a minimal "hello world" validation system with these exact requirements:
 
-- Demonstrate monorepo architecture with shared packages
-- Show consistent validation across frontend and backend
-- Prove independent deployment strategies for microservices
-- Keep implementation minimal and focused for POC goals
+- **Input Validation**: Only accept the string "hello" as valid input
+- **Response Logic**: Valid input returns "world", invalid input returns validation errors
+- **Shared Validation**: Use identical Zod schemas across frontend and backend
+- **Error Handling**: Consistent error responses for invalid inputs
 
-### Key Features
+## Architecture Principles
 
-- **Shared Validation**: Zod schemas used consistently across frontend and backend
-- **Simple Flow**: User inputs "hello" → system validates → returns "world"
-- **Independent Deployment**: Separate CI/CD pipelines for frontend and backend
-- **Containerized**: Docker-based deployment to EC2 instances
+### Monorepo Structure
 
-### Success Criteria
+- **Shared Packages First**: All validation logic must originate from `@monorepo-poc/schemas`
+- **No Duplication**: Never duplicate validation logic between frontend and backend
+- **Workspace Dependencies**: Always use `workspace:*` protocol for internal packages
 
-- Both frontend and backend use identical validation logic
-- Changes to shared schemas automatically propagate to both applications
-- Each service can be deployed independently without affecting the other
-- System demonstrates clear separation of concerns while maintaining consistency
+### API Design
+
+- **Single Endpoint**: POST `/hello` accepts `{ message: string }` and returns `{ response: string }`
+- **Validation First**: All inputs must be validated using shared schemas before processing
+- **Consistent Responses**: Use same error format across all endpoints
+
+### Frontend Patterns
+
+- **Client-Side Validation**: Validate forms using shared schemas before API calls
+- **Error Display**: Show validation errors immediately without server round-trip
+- **API Integration**: Use shared types for all API communication
+
+## Implementation Rules
+
+### Validation Flow
+
+1. Import schemas from `@monorepo-poc/schemas` package
+2. Use `.safeParse()` for user input validation
+3. Use `.parse()` for internal data validation (throws on error)
+4. Never bypass schema validation for any user input
+
+### Error Handling
+
+- Frontend: Display validation errors inline with form fields
+- Backend: Return 400 status with structured error messages
+- Both: Use Zod's built-in error formatting
+
+### Testing Requirements
+
+- Test validation logic in shared schemas package
+- Test API endpoints with both valid and invalid inputs
+- Test frontend forms with various input scenarios
+- Ensure error messages are user-friendly
+
+## Success Metrics
+
+- Zero validation logic duplication between apps
+- Consistent error messages across frontend and backend
+- Schema changes automatically affect both applications
+- Independent deployment without breaking changes
