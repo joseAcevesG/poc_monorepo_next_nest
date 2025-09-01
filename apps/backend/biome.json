@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.2.2/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.2.0/schema.json",
   "extends": "//",
   "root": false,
   "linter": {
@@ -41,6 +41,12 @@
     }
   },
   "files": {
-    "includes": ["**/*.ts", "**/*.js", "!node_modules/**", "!dist/**", "!coverage/**"]
+    "includes": [
+      "**/*.ts",
+      "**/*.js",
+      "!node_modules/**",
+      "!dist/**",
+      "!coverage/**"
+    ]
   }
 }

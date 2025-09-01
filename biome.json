@@ -6,7 +6,8 @@
       "recommended": true,
       "correctness": {
         "noUnusedVariables": "error",
-        "noUndeclaredVariables": "error"
+        "noUndeclaredVariables": "error",
+        "useImportExtensions": "warn"
       },
       "suspicious": {
         "noExplicitAny": "warn",
@@ -18,16 +19,46 @@
         "useConst": "error",
         "useTemplate": "error",
         "noUnusedTemplateLiteral": "warn",
-        "useConsistentArrayType": "warn"
+        "useConsistentArrayType": "warn",
+        "useExportType": "warn",
+        "useImportType": "warn",
+        "useNamingConvention": {
+          "level": "warn",
+          "options": {
+            "conventions": [
+              {
+                "selector": {
+                  "kind": "class"
+                },
+                "formats": ["PascalCase"]
+              },
+              {
+                "selector": {
+                  "kind": "interface"
+                },
+                "formats": ["PascalCase"]
+              },
+              {
+                "selector": {
+                  "kind": "typeAlias"
+                },
+                "formats": ["PascalCase"]
+              }
+            ]
+          }
+        }
       },
       "performance": {
-        "noAccumulatingSpread": "warn"
+        "noAccumulatingSpread": "warn",
+        "noDelete": "warn"
       },
       "complexity": {
-        "useSimplifiedLogicExpression": "warn"
+        "useSimplifiedLogicExpression": "warn",
+        "noExcessiveCognitiveComplexity": "warn"
       },
       "nursery": {
-        "useSortedClasses": "warn"
+        "useSortedClasses": "warn",
+        "noSecrets": "warn"
       }
     },
     "domains": {
