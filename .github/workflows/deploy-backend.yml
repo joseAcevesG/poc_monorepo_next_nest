@@ -60,6 +60,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-turbo-
 
+      - name: Check code formatting with Biome
+        run: |
+          npx turbo format:check --filter=@monorepo-poc/backend...
+
+      - name: Lint code with Biome and ESLint
+        run: |
+          npx turbo lint --filter=@monorepo-poc/backend...
+
       - name: Build affected packages
         run: |
           npx turbo build --filter=@monorepo-poc/backend...

@@ -4,10 +4,9 @@
 import type { TestingLibraryMatchers } from '@testing-library/jest-dom/matchers';
 
 declare module 'vitest' {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-empty-object-type
+  // biome-ignore lint/suspicious/noExplicitAny: Required for testing library integration
   interface Assertion<T = any> extends TestingLibraryMatchers<T, void> {}
-  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
   interface AsymmetricMatchersContaining
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: Required for testing library integration
     extends TestingLibraryMatchers<any, void> {}
 }

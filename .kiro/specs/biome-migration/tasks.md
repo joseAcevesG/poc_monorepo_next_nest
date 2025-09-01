@@ -130,15 +130,15 @@
   - Ensure no conflicts between Biome and ESLint rules
   - _Requirements: 4.5_
 
-- [ ] 8. Update CI/CD workflows for Biome integration
-- [ ] 8.1 Update GitHub Actions workflows to use Biome commands
+- [x] 8. Update CI/CD workflows for Biome integration
+- [x] 8.1 Update GitHub Actions workflows to use Biome commands
 
   - Replace ESLint/Prettier commands with Biome equivalents
   - Update workflow to run both Biome and ESLint where needed
   - Ensure proper error reporting and job failure handling
   - _Requirements: 6.4_
 
-- [ ] 8.2 Test CI/CD pipeline with new Biome configuration
+- [x] 8.2 Test CI/CD pipeline with new Biome configuration
 
   - Verify that workflows pass with new linting setup
   - Test that formatting checks work correctly
