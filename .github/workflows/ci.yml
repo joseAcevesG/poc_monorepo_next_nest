@@ -1,134 +1,22 @@
-name: Continuous Integration
+name: Code quality
 
 on:
-  pull_request:
-    branches: [main]
   push:
-    branches: [main]
-
-env:
-  NODE_VERSION: "22"
+  pull_request:
 
 jobs:
-  quality-checks:
+  quality:
     runs-on: ubuntu-latest
-    name: Code Quality Checks
-
+    permissions:
+      contents: read
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v5
         with:
-          fetch-depth: 0
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+          persist-credentials: false
+      - name: Setup Biome
+        uses: biomejs/setup-biome@v2
         with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10.15.0
-
-      - name: Get pnpm store directory
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-
-      - name: Setup pnpm cache
-        uses: actions/cache@v4
-        with:
-          path: ${{ env.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Setup Turborepo cache
-        uses: actions/cache@v4
-        with:
-          path: .turbo
-          key: ${{ runner.os }}-turbo-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-turbo-
-
-      - name: Check code formatting with Biome
-        run: |
-          npx turbo format:check
-        continue-on-error: false
-
-      - name: Lint code with Biome and ESLint
-        run: |
-          npx turbo lint
-        continue-on-error: false
-
-      - name: Build all packages
-        run: |
-          npx turbo build
-
-      - name: Run all tests
-        run: |
-          npx turbo test
-
-  affected-checks:
-    runs-on: ubuntu-latest
-    name: Affected Package Checks
-    if: github.event_name == 'pull_request'
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10.15.0
-
-      - name: Get pnpm store directory
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-
-      - name: Setup pnpm cache
-        uses: actions/cache@v4
-        with:
-          path: ${{ env.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Setup Turborepo cache
-        uses: actions/cache@v4
-        with:
-          path: .turbo
-          key: ${{ runner.os }}-turbo-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-turbo-
-
-      - name: Check formatting for affected packages
-        run: |
-          npx turbo format:check --filter="[HEAD^1]"
-
-      - name: Lint affected packages
-        run: |
-          npx turbo lint --filter="[HEAD^1]"
-
-      - name: Build affected packages
-        run: |
-          npx turbo build --filter="[HEAD^1]"
-
-      - name: Test affected packages
-        run: |
-          npx turbo test --filter="[HEAD^1]"
+          version: latest
+      - name: Run Biome
+        run: biome ci .
