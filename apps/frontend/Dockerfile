@@ -17,7 +17,7 @@ COPY apps/frontend/package.json ./apps/frontend/
 COPY packages/schemas/package.json ./packages/schemas/
 
 # Install dependencies
-RUN pnpm install --frozen-lockfile
+RUN pnpm install --frozen-lockfile --ignore-scripts
 
 # Build stage
 FROM base AS builder
@@ -60,7 +60,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/apps/frontend/.next/static ./apps
 COPY --from=builder --chown=nextjs:nodejs /app/apps/frontend/public ./apps/frontend/public
 
 # Install only production dependencies
-RUN pnpm install --prod --frozen-lockfile
+RUN pnpm install --prod --frozen-lockfile --ignore-scripts
 
 USER nextjs
 

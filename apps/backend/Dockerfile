@@ -17,7 +17,7 @@ COPY apps/backend/package.json ./apps/backend/
 COPY packages/schemas/package.json ./packages/schemas/
 
 # Install dependencies
-RUN pnpm install --frozen-lockfile
+RUN pnpm install --frozen-lockfile --ignore-scripts
 
 # Build stage
 FROM base AS builder
@@ -58,7 +58,7 @@ COPY --from=builder --chown=nestjs:nodejs /app/packages/schemas/dist ./packages/
 COPY --from=builder --chown=nestjs:nodejs /app/apps/backend/dist ./apps/backend/dist
 
 # Install only production dependencies
-RUN pnpm install --prod --frozen-lockfile
+RUN pnpm install --prod --frozen-lockfile --ignore-scripts
 
 USER nestjs
 
