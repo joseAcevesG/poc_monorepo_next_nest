@@ -4,6 +4,7 @@
   "description": "Proof-of-concept monorepo with Next.js frontend, Nest.js backend, and shared Zod schemas",
   "private": true,
   "scripts": {
+    "postinstall": "turbo build --filter=@monorepo-poc/schemas",
     "start": "turbo start",
     "build": "turbo build",
     "build:app": "turbo build --filter",

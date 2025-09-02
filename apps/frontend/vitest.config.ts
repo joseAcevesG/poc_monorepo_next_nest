@@ -12,12 +12,16 @@ export default defineConfig({
     },
     globals: true,
   },
+  define: {
+    global: "globalThis",
+  },
+  esbuild: {
+    jsx: "automatic",
+    target: "node22",
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
-  },
-  esbuild: {
-    target: "node22",
   },
 });
